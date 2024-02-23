@@ -4,6 +4,8 @@ namespace Sodecl\Scheduler;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Carbon\Exceptions\InvalidCastException;
+use Carbon\Exceptions\InvalidFormatException;
 
 class Schedule
 {
@@ -12,6 +14,13 @@ class Schedule
     ) {
     }
 
+    /**
+     * @param  TimeSlot[]  $slotsTaken
+     * @return TimeSlot[]
+     *
+     * @throws InvalidFormatException
+     * @throws InvalidCastException
+     */
     public function timeSlotsFor(CarbonInterface $date, array $slotsTaken = []): array
     {
         $slots = [];
@@ -40,8 +49,13 @@ class Schedule
                 $start = $lunchEnd;
             }
 
-            // check if slot is already taken
             if (in_array($start->format('Y-m-d H:i'), $slotsTaken)) {
+                $start = $start->addMinutes($interval);
+
+                continue;
+            }
+
+            if (array_filter($slotsTaken, fn (TimeSlot $slot) => $slot->start->format('Y-m-d H:i') == $start->format('Y-m-d H:i'))) {
                 $start = $start->addMinutes($interval);
 
                 continue;
