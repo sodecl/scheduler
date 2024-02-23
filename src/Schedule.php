@@ -17,6 +17,19 @@ class Schedule
         $slots = [];
         $start = Carbon::parse($date->format('Y-m-d') . ' ' . $this->config->openingHour);
         $end = Carbon::parse($date->format('Y-m-d') . ' ' . $this->config->closingHour);
+
+        if($date->gt($this->config->scheduleEnd)) {
+            return $slots;
+        }
+
+        if($date->lt($this->config->scheduleStart)) {
+            return $slots;
+        }
+
+        if (!in_array(strtolower($date->englishDayOfWeek), $this->config->days)) {
+            return $slots;
+        }
+
         $lunchStart = $this->config->lunchBreakStart;
 
         $lunchStart = Carbon::parse($date->format('Y-m-d') . ' ' . $lunchStart);
