@@ -25,7 +25,6 @@ test('calculate for 1 hour blocks', function () {
 
     $this->assertEquals(now()->endOfMonth()->format('Y-m-d ').$closingHour, $scheduleEnd->format('Y-m-d H:i'));
 
-    // $scheduleConfig = new ScheduleConfig($openingHour, $closingHour, true, $lunchBreakStart, $lunchBreakDuration, $scheduleSize, $days, $scheduleStart, $scheduleEnd);
     $scheduleConfig = ScheduleConfig::make()
         ->days($days)
         ->openingHour($openingHour)
