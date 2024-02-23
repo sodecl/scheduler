@@ -86,13 +86,21 @@ test('calculate for 15 minute blocks', function () {
     $this->assertEquals(now()->endOfMonth()->format('Y-m-d ') . $closingHour, $scheduleEnd->format('Y-m-d H:i'));
 
 
-    $scheduleConfig = ScheduleConfig::make()->noLunchBreak()->closingHour($closingHour)->scheduleStart($scheduleStart)->scheduleEnd($scheduleEnd)->slotMinutes($scheduleSize);
+    $scheduleConfig = ScheduleConfig::make()
+        ->noLunchBreak()
+        ->closingHour($closingHour)
+        ->scheduleStart($scheduleStart)
+        ->scheduleEnd($scheduleEnd)
+        ->days($days)
+        ->slotMinutes($scheduleSize);
 
     $schedule = new Schedule($scheduleConfig);
 
-    $taken = [today()->setTimeFrom('09:30')->format('Y-m-d H:i')];
+    $dateFor = today()->nextWeekday();
 
-    $slots = $schedule->timeSlotsFor(today(),  $taken);
+    $taken = [$dateFor->setTimeFrom('09:30')->format('Y-m-d H:i'), $dateFor->setTimeFrom('11:45')->format('Y-m-d H:i')];
+
+    $slots = $schedule->timeSlotsFor($dateFor,  $taken);
 
     $expectedSlots = [
         ['start' => '08:00', 'end' => '08:15'],
@@ -109,13 +117,12 @@ test('calculate for 15 minute blocks', function () {
         ['start' => '11:00', 'end' => '11:15'],
         ['start' => '11:15', 'end' => '11:30'],
         ['start' => '11:30', 'end' => '11:45'],
-        ['start' => '11:45', 'end' => '12:00'],
     ];
 
-    $expectedSlots = array_map(function ($slot) {
+    $expectedSlots = array_map(function ($slot) use($dateFor){
         return [
-            'start' => today()->format('Y-m-d ') . $slot['start'],
-            'end' => today()->format('Y-m-d ') . $slot['end']
+            'start' => $dateFor->format('Y-m-d ') . $slot['start'],
+            'end' => $dateFor->format('Y-m-d ') . $slot['end']
         ];
     }, $expectedSlots);
 
