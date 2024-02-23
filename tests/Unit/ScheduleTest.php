@@ -21,10 +21,9 @@ test('calculate for 1 hour blocks', function () {
     $scheduleStart = now()->startOfMonth()->setTimeFrom($openingHour);
     $scheduleEnd = now()->endOfMonth()->setTimeFrom($closingHour);
 
-    $this->assertEquals(now()->startOfMonth()->format('Y-m-d ') . $openingHour, $scheduleStart->format('Y-m-d H:i'));
+    $this->assertEquals(now()->startOfMonth()->format('Y-m-d ').$openingHour, $scheduleStart->format('Y-m-d H:i'));
 
-    $this->assertEquals(now()->endOfMonth()->format('Y-m-d ') . $closingHour, $scheduleEnd->format('Y-m-d H:i'));
-
+    $this->assertEquals(now()->endOfMonth()->format('Y-m-d ').$closingHour, $scheduleEnd->format('Y-m-d H:i'));
 
     // $scheduleConfig = new ScheduleConfig($openingHour, $closingHour, true, $lunchBreakStart, $lunchBreakDuration, $scheduleSize, $days, $scheduleStart, $scheduleEnd);
     $scheduleConfig = ScheduleConfig::make()
@@ -40,7 +39,6 @@ test('calculate for 1 hour blocks', function () {
     $schedule = new Schedule($scheduleConfig);
 
     $slots = $schedule->timeSlotsFor(today());
-
 
     $this->assertCount(8, $slots);
 
@@ -74,10 +72,9 @@ test('calculate for 15 minute blocks', function () {
     $scheduleStart = now()->startOfMonth()->setTimeFrom($openingHour);
     $scheduleEnd = now()->endOfMonth()->setTimeFrom($closingHour);
 
-    $this->assertEquals(now()->startOfMonth()->format('Y-m-d ') . $openingHour, $scheduleStart->format('Y-m-d H:i'));
+    $this->assertEquals(now()->startOfMonth()->format('Y-m-d ').$openingHour, $scheduleStart->format('Y-m-d H:i'));
 
-    $this->assertEquals(now()->endOfMonth()->format('Y-m-d ') . $closingHour, $scheduleEnd->format('Y-m-d H:i'));
-
+    $this->assertEquals(now()->endOfMonth()->format('Y-m-d ').$closingHour, $scheduleEnd->format('Y-m-d H:i'));
 
     $scheduleConfig = ScheduleConfig::make()
         ->noLunchBreak()
@@ -93,7 +90,7 @@ test('calculate for 15 minute blocks', function () {
 
     $taken = [$dateFor->setTimeFrom('09:30')->format('Y-m-d H:i'), $dateFor->setTimeFrom('11:45')->format('Y-m-d H:i')];
 
-    $slots = $schedule->timeSlotsFor($dateFor,  $taken);
+    $slots = $schedule->timeSlotsFor($dateFor, $taken);
 
     $expectedSlots = [
         ['start' => '08:00', 'end' => '08:15'],
@@ -128,8 +125,6 @@ test('calculate for 15 minute blocks', function () {
         new TimeSlot($dateFor->clone()->setTimeFrom('11:15'), $dateFor->clone()->setTimeFrom('11:30')),
         new TimeSlot($dateFor->clone()->setTimeFrom('11:30'), $dateFor->clone()->setTimeFrom('11:45')),
     ];
-
-
 
     $this->assertCount(count($expectedSlots), $slots);
     $this->assertEquals($expectedSlots, $slots);

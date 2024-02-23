@@ -3,7 +3,8 @@
     "description": "Scheduler library",
     "type": "library",
     "require-dev": {
-        "pestphp/pest": "^2.34"
+        "pestphp/pest": "^2.34",
+        "laravel/pint": "^1.14"
     },
     "license": "MIT",
     "autoload": {

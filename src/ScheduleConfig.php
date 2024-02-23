@@ -2,7 +2,6 @@
 
 namespace Sodecl\Scheduler;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
 class ScheduleConfig
@@ -40,18 +39,21 @@ class ScheduleConfig
     public function openingHour(string $openingHour): self
     {
         $this->openingHour = $openingHour;
+
         return $this;
     }
 
     public function closingHour(string $closingHour): self
     {
         $this->closingHour = $closingHour;
+
         return $this;
     }
 
     public function lunchBreak(): self
     {
         $this->lunchBreak = true;
+
         return $this;
     }
 
@@ -60,48 +62,56 @@ class ScheduleConfig
         $this->lunchBreak = false;
         $this->lunchBreakStart = null;
         $this->lunchBreakDuration = null;
+
         return $this;
     }
 
     public function lunchBreakStart(string $lunchBreakStart): self
     {
         $this->lunchBreakStart = $lunchBreakStart;
+
         return $this;
     }
 
     public function lunchBreakDuration(int $lunchBreakDuration): self
     {
         $this->lunchBreakDuration = $lunchBreakDuration;
+
         return $this;
     }
 
     public function slotMinutes(int $slotMinutes): self
     {
         $this->slotMinutes = $slotMinutes;
+
         return $this;
     }
 
     public function days(array $days): self
     {
         $this->days = $days;
+
         return $this;
     }
 
     public function scheduleStart(CarbonInterface $scheduleStart): self
     {
         $this->scheduleStart = $scheduleStart;
+
         return $this;
     }
 
     public function scheduleEnd(CarbonInterface $scheduleEnd): self
     {
         $this->scheduleEnd = $scheduleEnd;
+
         return $this;
     }
 
     public function timezone(string $timezone): self
     {
         $this->timezone = $timezone;
+
         return $this;
     }
 }
