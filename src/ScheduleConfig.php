@@ -3,6 +3,7 @@
 namespace Sodecl\Scheduler;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 
 class ScheduleConfig
 {
@@ -14,8 +15,8 @@ class ScheduleConfig
         public ?int $lunchBreakDuration,
         public int $slotMinutes,
         public array $days,
-        public Carbon $scheduleStart,
-        public Carbon $scheduleEnd,
+        public CarbonInterface $scheduleStart,
+        public CarbonInterface $scheduleEnd,
         public string $timezone = 'UTC',
     ) {
     }
@@ -86,13 +87,13 @@ class ScheduleConfig
         return $this;
     }
 
-    public function scheduleStart(Carbon $scheduleStart): self
+    public function scheduleStart(CarbonInterface $scheduleStart): self
     {
         $this->scheduleStart = $scheduleStart;
         return $this;
     }
 
-    public function scheduleEnd(Carbon $scheduleEnd): self
+    public function scheduleEnd(CarbonInterface $scheduleEnd): self
     {
         $this->scheduleEnd = $scheduleEnd;
         return $this;

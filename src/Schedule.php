@@ -3,6 +3,7 @@
 namespace Sodecl\Scheduler;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 
 class Schedule
 {
@@ -12,7 +13,7 @@ class Schedule
     }
 
 
-    public function timeSlotsFor(Carbon $date): array
+    public function timeSlotsFor(CarbonInterface $date, array $slotsTaken = []): array
     {
         $slots = [];
         $start = Carbon::parse($date->format('Y-m-d') . ' ' . $this->config->openingHour);
@@ -38,6 +39,12 @@ class Schedule
         while ($start < $end) {
             if ($start->between($lunchStart, $lunchEnd)) {
                 $start = $lunchEnd;
+            }
+
+            // check if slot is already taken
+            if (in_array($start->format('Y-m-d H:i'), $slotsTaken)) {
+                $start = $start->addMinutes($interval);
+                continue;
             }
 
             $slotEnd = $start->clone()->addMinutes($interval);
