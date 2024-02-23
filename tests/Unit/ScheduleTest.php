@@ -2,6 +2,7 @@
 
 use Sodecl\Scheduler\Schedule;
 use Sodecl\Scheduler\ScheduleConfig;
+use Sodecl\Scheduler\TimeSlot;
 
 test('calculate for 1 hour blocks', function () {
 
@@ -44,23 +45,15 @@ test('calculate for 1 hour blocks', function () {
     $this->assertCount(8, $slots);
 
     $expectedSlots = [
-        ['start' => '08:00', 'end' => '09:00'],
-        ['start' => '09:00', 'end' => '10:00'],
-        ['start' => '10:00', 'end' => '11:00'],
-        ['start' => '11:00', 'end' => '12:00'],
-        ['start' => '13:00', 'end' => '14:00'],
-        ['start' => '14:00', 'end' => '15:00'],
-        ['start' => '15:00', 'end' => '16:00'],
-        ['start' => '16:00', 'end' => '17:00'],
+        new TimeSlot(today()->setTimeFrom('08:00'), today()->setTimeFrom('09:00')),
+        new TimeSlot(today()->setTimeFrom('09:00'), today()->setTimeFrom('10:00')),
+        new TimeSlot(today()->setTimeFrom('10:00'), today()->setTimeFrom('11:00')),
+        new TimeSlot(today()->setTimeFrom('11:00'), today()->setTimeFrom('12:00')),
+        new TimeSlot(today()->setTimeFrom('13:00'), today()->setTimeFrom('14:00')),
+        new TimeSlot(today()->setTimeFrom('14:00'), today()->setTimeFrom('15:00')),
+        new TimeSlot(today()->setTimeFrom('15:00'), today()->setTimeFrom('16:00')),
+        new TimeSlot(today()->setTimeFrom('16:00'), today()->setTimeFrom('17:00')),
     ];
-
-    $expectedSlots = array_map(function ($slot) {
-        return [
-            'start' => today()->format('Y-m-d ') . $slot['start'],
-            'end' => today()->format('Y-m-d ') . $slot['end']
-        ];
-    }, $expectedSlots);
-
     $this->assertEquals($expectedSlots, $slots);
 });
 
@@ -119,13 +112,26 @@ test('calculate for 15 minute blocks', function () {
         ['start' => '11:30', 'end' => '11:45'],
     ];
 
-    $expectedSlots = array_map(function ($slot) use($dateFor){
-        return [
-            'start' => $dateFor->format('Y-m-d ') . $slot['start'],
-            'end' => $dateFor->format('Y-m-d ') . $slot['end']
-        ];
-    }, $expectedSlots);
+    $expectedSlots = [
+        new TimeSlot($dateFor->clone()->setTimeFrom('08:00'), $dateFor->clone()->setTimeFrom('08:15')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('08:15'), $dateFor->clone()->setTimeFrom('08:30')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('08:30'), $dateFor->clone()->setTimeFrom('08:45')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('08:45'), $dateFor->clone()->setTimeFrom('09:00')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('09:00'), $dateFor->clone()->setTimeFrom('09:15')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('09:15'), $dateFor->clone()->setTimeFrom('09:30')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('09:45'), $dateFor->clone()->setTimeFrom('10:00')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('10:00'), $dateFor->clone()->setTimeFrom('10:15')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('10:15'), $dateFor->clone()->setTimeFrom('10:30')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('10:30'), $dateFor->clone()->setTimeFrom('10:45')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('10:45'), $dateFor->clone()->setTimeFrom('11:00')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('11:00'), $dateFor->clone()->setTimeFrom('11:15')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('11:15'), $dateFor->clone()->setTimeFrom('11:30')),
+        new TimeSlot($dateFor->clone()->setTimeFrom('11:30'), $dateFor->clone()->setTimeFrom('11:45')),
+    ];
+
+
 
     $this->assertCount(count($expectedSlots), $slots);
     $this->assertEquals($expectedSlots, $slots);
+
 });

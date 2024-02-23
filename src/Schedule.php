@@ -2,6 +2,7 @@
 
 namespace Sodecl\Scheduler;
 
+
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
@@ -10,6 +11,7 @@ class Schedule
     public function __construct(
         protected ScheduleConfig $config
     ) {
+     Carbon::isImmutable();
     }
 
 
@@ -41,14 +43,15 @@ class Schedule
                 $start = $lunchEnd;
             }
 
+
             // check if slot is already taken
             if (in_array($start->format('Y-m-d H:i'), $slotsTaken)) {
                 $start = $start->addMinutes($interval);
                 continue;
             }
 
-            $slotEnd = $start->clone()->addMinutes($interval);
-            $slots[] = ['start' => $start->format('Y-m-d H:i'), 'end' => $slotEnd->format('Y-m-d H:i')];
+            $slotEnd = $start->clone()->addMinutes($interval)->toImmutable();
+            $slots[] = new TimeSlot($start->clone()->toImmutable(), $slotEnd);
             $start = $start->addMinutes($interval);
         }
         return $slots;
