@@ -1,0 +1,28 @@
+{
+    "name": "cfuentessalgado/scheduler",
+    "description": "Scheduler library",
+    "type": "library",
+    "require-dev": {
+        "pestphp/pest": "^2.34"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sodecl\\Scheduler\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Cristian Fuentes Salgado",
+            "email": "cfuentess2010@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
