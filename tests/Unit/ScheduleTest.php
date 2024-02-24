@@ -16,7 +16,7 @@ test('calculate for 1 hour blocks', function () {
 
     $slotMinutes = '60';
 
-    $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
     $scheduleStart = now()->startOfMonth()->setTimeFrom($openingHour);
     $scheduleEnd = now()->endOfMonth()->setTimeFrom($closingHour);
