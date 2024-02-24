@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "nesbot/carbon": "^3.0"
+        "nesbot/carbon": "^2.0"
     },
     "config": {
         "allow-plugins": {
